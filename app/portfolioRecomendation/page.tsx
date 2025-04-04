@@ -19,82 +19,119 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { useEffect, useState } from "react"
 
-// Sample data based on the provided structure
+// Updated data structure based on the provided JSON
 const portfolioData = {
   initialAnalysis: {
-    portfolio_recommendation: {
-      investment_amount: 120000,
-      risk_tolerance: "Medium",
-      time_horizon: "Medium-term (3-7 years)",
-      preferred_sectors: ["Finance", "Technology"],
-      investment_strategy: "Any",
-      geographic_preference: "USA",
-      market_conditions: "Neutral",
-      stocks_etfs: [
-        {
-          stock_symbol: "JPM",
-          stock_name: "JPMorgan Chase & Co.",
-          percentage_allocation: 25,
-          justification:
-            "JPMorgan is a well-established financial institution with a strong track record of stability and dividend payments. It offers exposure to the finance sector, which is expected to perform well in a neutral market environment.",
+    initialAnalysis: {
+      portfolio_recommendation: {
+        investment_amount: 150000,
+        risk_tolerance: "Low",
+        time_horizon: "Medium-term (3-7 years)",
+        preferred_sectors: ["Technology", "RealEstate"],
+        investment_strategy: "Growth",
+        geographic_preference: "USA",
+        market_conditions: "Neutral",
+        stocks_etfs: [
+          {
+            stock_symbol: "AAPL",
+            stock_name: "Apple Inc.",
+            sector: "Technology",
+            percentage_allocation: 30,
+            justification:
+              "Apple is a well-established company with a history of innovation and growth. It offers a diversified product portfolio beyond just iPhones, including services and wearables, aligning with a growth strategy.",
+          },
+          {
+            stock_symbol: "PLD",
+            stock_name: "Prologis Inc.",
+            sector: "RealEstate",
+            percentage_allocation: 20,
+            justification:
+              "Prologis focuses on logistics and industrial properties, which are in high demand due to the rise of e-commerce, aligning with the growth strategy.",
+          },
+          {
+            stock_symbol: "VOO",
+            stock_name: "Vanguard S&P 500 ETF",
+            sector: "Broad Market",
+            percentage_allocation: 20,
+            justification:
+              "Provides broad market exposure with low volatility, diversifying the portfolio and reducing risk.",
+          },
+          {
+            stock_symbol: "SMH",
+            stock_name: "VanEck Semiconductor ETF",
+            sector: "Technology",
+            percentage_allocation: 15,
+            justification:
+              "Covers a range of semiconductor companies, crucial for industries like AI, automotive, and consumer electronics, offering growth potential.",
+          },
+          {
+            stock_symbol: "XLU",
+            stock_name: "Utilities Select Sector SPDR Fund",
+            sector: "Utilities",
+            percentage_allocation: 15,
+            justification: "Provides stability and consistent dividends, balancing the portfolio's risk.",
+          },
+        ],
+        expected_return: "7-9% annually",
+        risk_level: "Moderate",
+        comparison_to_benchmark: {
+          benchmark: "S&P 500",
+          comparison: "Expected to perform similarly or slightly better due to focus on growth sectors.",
         },
-        {
-          stock_symbol: "MSFT",
-          stock_name: "Microsoft Corporation",
-          percentage_allocation: 25,
-          justification:
-            "Microsoft is a leader in the technology sector with a diverse product portfolio, including cloud computing and enterprise software. It has shown consistent growth and is well-positioned for medium-term appreciation.",
-        },
-        {
-          stock_symbol: "AAPL",
-          stock_name: "Apple Inc.",
-          percentage_allocation: 20,
-          justification:
-            "Apple is a dominant player in the technology sector with a strong brand and loyal customer base. It has a history of innovation and is expected to continue its growth trajectory.",
-        },
-        {
-          stock_symbol: "V",
-          stock_name: "Visa Inc.",
-          percentage_allocation: 15,
-          justification:
-            "Visa is a leading financial technology company with a strong global presence. It benefits from the increasing adoption of digital payments and has a solid track record of performance.",
-        },
-        {
-          stock_symbol: "SPY",
-          stock_name: "SPDR S&P 500 ETF Trust",
-          percentage_allocation: 15,
-          justification:
-            "The SPY ETF provides broad market exposure by tracking the S&P 500 index. It adds diversification to the portfolio and reduces sector-specific risk.",
-        },
-      ],
-      expected_return: "7-9%",
-      risk_level: "Medium",
-      comparison_to_benchmark: {
-        benchmark: "S&P 500",
-        comparison:
-          "This portfolio is expected to perform similarly to the S&P 500 with a slight potential for outperformance due to its focus on strong sectors and individual stocks. However, it carries slightly higher risk due to its concentrated exposure to the technology and finance sectors.",
+        potential_risks: [
+          {
+            risk: "Market downturns affecting Technology stocks",
+            management_strategy: "Regular portfolio rebalancing and diversification.",
+          },
+          {
+            risk: "Interest rate changes impacting Real Estate",
+            management_strategy: "Monitor interest rate trends and adjust allocations as needed.",
+          },
+          {
+            risk: "Sector-specific risks in Technology and Semiconductors",
+            management_strategy: "Stay informed about market trends and regulatory changes.",
+          },
+        ],
       },
-      potential_risks: [
-        {
-          risk: "Market Downturn",
-          management_strategy: "Regular portfolio rebalancing and diversification.",
-        },
-        {
-          risk: "Sector-specific Risks",
-          management_strategy: "Diversification across multiple sub-sectors within technology and finance.",
-        },
-        {
-          risk: "Economic Factors",
-          management_strategy: "Monitoring economic trends and adjusting allocations as needed.",
-        },
-      ],
     },
   },
 }
 
 export default function StockRecommendationPage() {
-  const recommendation = portfolioData.initialAnalysis.portfolio_recommendation
+    const [portfolioRecommendationData, setPortfolioRecommendationData] = useState(portfolioData);
+
+    //This is for testing purposes only. Remove this in production.
+    // useEffect(() => {
+    //      async function fetchStockRecomendationAI() {
+    //   const result = await fetch("/api/portfolioRecommendation", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json", 
+    //     },
+    //     body: JSON.stringify({
+    //         "investmentAmount" : 150000,
+    //        "riskTolerance" : "Low",
+    //        "timeHorizon" : "Medium-term (3-7 years)",
+    //        "preferredSectors" : ["any"],
+    //        "investmentStrategy" : "Growth",
+    //        "geographicPreference" : "USA",
+    //        "marketConditions" : "Neutral"
+    //    }  ),
+    //   });
+  
+    //   const data = await result.json();
+    //   setPortfolioRecommendationData(data);
+      
+    // }
+  
+    // fetchStockRecomendationAI();
+    // },[])
+
+   console.log(portfolioRecommendationData)
+  // Updated path to access the recommendation data
+  const recommendation = portfolioRecommendationData.initialAnalysis.initialAnalysis.portfolio_recommendation
   const stocks = recommendation.stocks_etfs
 
   // Prepare data for charts
@@ -108,25 +145,17 @@ export default function StockRecommendationPage() {
   const colors = ["#f43f5e", "#ec4899", "#8b5cf6", "#6366f1", "#0ea5e9"]
 
   // Calculate risk score (for visualization)
-  const riskScoreMap = { Low: 25, Medium: 50, High: 75, "Very High": 100 }
-  const riskScore = riskScoreMap[recommendation.risk_level as keyof typeof riskScoreMap] || 50
+  const riskScoreMap = { Low: 25, Moderate: 50, Medium: 50, High: 75, "Very High": 100 }
+  const riskScore = riskScoreMap[recommendation.risk_level] || 50
 
   // Extract min expected return for visualization
-  const minExpectedReturn = Number.parseInt(recommendation.expected_return.split("-")[0])
+  const expectedReturnString = recommendation.expected_return.split(" ")[0] // Get "7-9%" part
+  const minExpectedReturn = Number.parseInt(expectedReturnString.split("-")[0])
 
-  // Calculate sector distribution dynamically
-  const sectorDistribution = stocks.reduce((acc: Record<string, number>, stock) => {
-    // Determine sector based on stock name or symbol
-    let sector = "Other"
-    if (stock.stock_symbol === "SPY") {
-      sector = "ETF"
-    } else if (["JPM", "V"].includes(stock.stock_symbol)) {
-      sector = "Finance"
-    } else if (["MSFT", "AAPL"].includes(stock.stock_symbol)) {
-      sector = "Technology"
-    }
+  // Calculate sector distribution using the explicit sector field
+  const sectorDistribution = stocks.reduce((acc, stock) => {
+    const sector = stock.sector || "Other"
 
-    // Add or update sector allocation
     if (!acc[sector]) {
       acc[sector] = 0
     }
@@ -150,12 +179,15 @@ export default function StockRecommendationPage() {
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Investment Portfolio</h1>
               <p className="text-gray-500 dark:text-gray-400 mt-1">Personalized recommendation based on your profile</p>
             </div>
-            <div className="mt-4 md:mt-0">
-              <Badge variant="outline" className="text-sm font-medium mr-2 px-3 py-1">
+            <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
+              <Badge variant="outline" className="text-sm font-medium px-3 py-1">
                 {recommendation.risk_tolerance} Risk
               </Badge>
               <Badge variant="outline" className="text-sm font-medium px-3 py-1">
                 {recommendation.time_horizon}
+              </Badge>
+              <Badge variant="outline" className="text-sm font-medium px-3 py-1">
+                {recommendation.investment_strategy} Strategy
               </Badge>
             </div>
           </div>
@@ -247,7 +279,7 @@ export default function StockRecommendationPage() {
             <CardFooter className="border-t bg-gray-50 dark:bg-gray-800/50 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center">
                 <LineChart className="h-4 w-4 mr-2" />
-                <span>Balanced allocation across technology and finance sectors</span>
+                <span>Balanced allocation across {recommendation.preferred_sectors.join(" and ")} sectors</span>
               </div>
             </CardFooter>
           </Card>
@@ -279,7 +311,7 @@ export default function StockRecommendationPage() {
                 </ResponsiveContainer>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between text-sm text-gray-500 dark:text-gray-400 border-t">
+            <CardFooter className="flex flex-wrap justify-between text-sm text-gray-500 dark:text-gray-400 border-t gap-2">
               {sectorChartData.map((sector, index) => (
                 <div key={sector.name} className="flex items-center">
                   <span
@@ -306,6 +338,7 @@ export default function StockRecommendationPage() {
                   <TableRow>
                     <TableHead className="w-[100px]">Symbol</TableHead>
                     <TableHead>Name</TableHead>
+                    <TableHead>Sector</TableHead>
                     <TableHead className="text-right">Allocation</TableHead>
                     <TableHead>Justification</TableHead>
                   </TableRow>
@@ -323,6 +356,11 @@ export default function StockRecommendationPage() {
                         </div>
                       </TableCell>
                       <TableCell>{stock.stock_name}</TableCell>
+                      <TableCell className="">
+                        <Badge variant="secondary" className="font-normal ">
+                          {stock.sector}
+                        </Badge>
+                      </TableCell>
                       <TableCell className="text-right">
                         <Badge variant="outline" className="font-medium">
                           {stock.percentage_allocation}%
@@ -374,13 +412,13 @@ export default function StockRecommendationPage() {
                 </div>
               </div>
               <Separator className="my-6" />
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="text-sm text-gray-500 dark:text-gray-400">Expected Performance</div>
                 <div className="flex items-center">
                   <span className="text-sm font-medium mr-2">Similar with upside potential</span>
                   <ArrowRight className="h-4 w-4 text-gray-400" />
                 </div>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 

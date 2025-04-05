@@ -22,7 +22,7 @@ import { PriceChart } from "../../components/price-chart"
 import { RecommendationCard } from "../../components/recommendation-card"
 import { TechnicalIndicators } from "../../components/technical-indicators"
 import { AIInsights } from "../../components/ai-insights"
-import { formatCurrency, formatMarketCap, formatNumber, formatPercent } from "../../utils/utils"
+import { formatCurrency, formatMarketCap, formatNumber, formatPercent } from "../../pages/utils/utils"
 import { ArrowDown, ArrowUp, BarChart3, Check, DollarSign, Info, Lightbulb, TrendingUp } from "lucide-react"
 import { set } from "react-hook-form";
 

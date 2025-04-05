@@ -1,10 +1,10 @@
 import { PromptTemplate } from "@langchain/core/prompts";
-import { cleanJSONUsingLLM2 } from "../../utils/utils.ts";
+import { cleanJSONUsingLLM2 } from "../utils/utils.ts";
 import {
   JSONSchema,
   portfolioRecommendationPrompt,
-} from "../../utils/constants.ts";
-import {deepseekR1LLM} from "../../utils/llm.ts";
+} from "../utils/constants.ts";
+import {deepseekR1LLM} from "../utils/llm.ts";
 
 export default async function handler(req, res) {
   const {
@@ -57,8 +57,11 @@ export default async function handler(req, res) {
     },
     { role: "user", content: stockAnalysisPrompt },
   ]);
+  console.log("firstLLMInviked")
 
   const parsedJSON = await cleanJSONUsingLLM2(context.content, JSONSchema);
+
+  console.log("parsedJSON");
 
   // Step 5: Send response to client
   res.status(200).json({

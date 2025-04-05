@@ -11,6 +11,7 @@ export const  deepseekR1LLM = new ChatGroq({
       type: "json_object",
     },
     stop: null,
+    apiKey: process.env.GROQ_API_KEY,
   });
 
   export const gemma2LLM = new ChatGroq({
@@ -20,6 +21,7 @@ export const  deepseekR1LLM = new ChatGroq({
     top_p: 1,
     stream: true,
     stop: null,
+    apiKey: process.env.GROQ_API_KEY,
   });
 
   export const llama70bversatile = new ChatGroq({
@@ -27,5 +29,6 @@ export const  deepseekR1LLM = new ChatGroq({
     temperature: 0,
     maxTokens: undefined,
     maxRetries: 2,
+    apiKey: process.env.GROQ_API_KEY,
     
   });

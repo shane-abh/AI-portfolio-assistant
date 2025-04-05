@@ -77,6 +77,43 @@ export const JSONSchema = {
   },
 };
 
+export const portfolioAnalyzerResultDataStructure = {
+  portfolioOverview: {
+    investmentAmount: "number",
+    riskTolerance: "string",
+    timeHorizon: "string",
+    investmentStrategy: "string",
+    marketConditions: "string",
+  },
+  portfolioBreakdown: [
+    {
+      name: "string",
+      allocationPercentage: "number",
+      sector: "string",
+      analysis: "string",
+    },
+  ],
+  balanceCheck: {
+    isBalanced: "boolean",
+    issues: ["string"],
+  },
+  portfolioAnalysis: "string",
+  predictedReturns: {
+    stocks: [
+      {
+        name: "string",
+        predictedReturn: "number",
+      },
+    ],
+    overallPredictedReturn: "number",
+  },
+  recommendations: [
+    {
+      recommendation: "string",
+      rationale: "string",
+    },
+  ],
+};
 export const portfolioRecommendationPrompt = `You are an expert financial analyst specializing in stock portfolio creation. Based on my investment preferences, risk tolerance, and goals, recommend a well-diversified portfolio.
 
 Investment Preferences:
@@ -171,3 +208,94 @@ Ensure that your JSON output follows this structure:
 \`\`\`
 
 Ensure that your JSON response is **syntactically correct** and includes actionable insights. Make sure to give only insight that is based on the input. Dont give any new suggestions outside of that`;
+
+
+export  const portfolioAnalyzerMockData = {
+  portfolioOverview: {
+    investmentAmount: 100000,
+    riskTolerance: "Moderate",
+    timeHorizon: "3-7 years",
+    investmentStrategy: "Growth",
+    marketConditions: "Bullish",
+  },
+  portfolioBreakdown: [
+    {
+      name: "Apple Inc.",
+      allocationPercentage: 20,
+      sector: "Technology",
+      analysis:
+        "Apple is a multinational technology company known for its innovative products and strong brand recognition. It holds a dominant position in the smartphone and wearable technology markets. However, its reliance on a limited number of products and increasing competition pose risks.",
+    },
+    {
+      name: "Amazon",
+      allocationPercentage: 15,
+      sector: "E-commerce",
+      analysis:
+        "Amazon is a global leader in e-commerce and cloud computing. It boasts a vast customer base and a wide range of products and services. However, its dependence on e-commerce growth and antitrust scrutiny present potential challenges.",
+    },
+    {
+      name: "Tesla",
+      allocationPercentage: 10,
+      sector: "Automotive",
+      analysis:
+        "Tesla is an electric vehicle and clean energy company known for its cutting-edge technology and ambitious growth plans. Strong demand for electric vehicles presents opportunities, but competition from established automakers and supply chain issues pose risks.",
+    },
+    {
+      name: "Microsoft",
+      allocationPercentage: 5,
+      sector: "Technology",
+      analysis:
+        "Microsoft is a technology giant with a diversified portfolio of products and services, including cloud computing, operating systems, and productivity software. Its strong market position and continuous innovation provide stability, but growth may be slower compared to younger technology companies.",
+    },
+    {
+      name: "JPMorgan Chase & Co",
+      allocationPercentage: 10,
+      sector: "Finance",
+      analysis:
+        "JPMorgan Chase is a multinational financial services firm offering a wide range of banking, investment, and asset management services. Its size and financial stability make it relatively resilient to market fluctuations, but it can be affected by changes in interest rates and economic conditions.",
+    },
+  ],
+  balanceCheck: {
+    isBalanced: false,
+    issues: ["Overconcentration in Technology sector (55%)"],
+  },
+  portfolioAnalysis:
+    "The portfolio exhibits a strong growth bias with a significant allocation to technology stocks, reflecting the client's investment strategy. However, the heavy concentration in the technology sector raises concerns about diversification and potential vulnerability to sector-specific risks. A more balanced approach including exposure to other sectors would be advisable.",
+  predictedReturns: {
+    stocks: [
+      {
+        name: "Apple Inc.",
+        predictedReturn: 12,
+      },
+      {
+        name: "Amazon",
+        predictedReturn: 18,
+      },
+      {
+        name: "Tesla",
+        predictedReturn: 25,
+      },
+      {
+        name: "Microsoft",
+        predictedReturn: 8,
+      },
+      {
+        name: "JPMorgan Chase & Co",
+        predictedReturn: 6,
+      },
+    ],
+    overallPredictedReturn: 15,
+  },
+  recommendations: [
+    {
+      recommendation: "Diversify across sectors",
+      rationale:
+        "Reducing the concentration in technology and adding exposure to other sectors such as healthcare, consumer staples, or energy can mitigate portfolio risk.",
+    },
+    {
+      recommendation: "Consider rebalancing",
+      rationale:
+        "Realigning the allocation to stocks based on individual risk profiles and market outlook can ensure the portfolio remains aligned with the client's risk tolerance and investment goals.",
+    },
+  ],
+};

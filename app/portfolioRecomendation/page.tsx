@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 // Updated data structure based on the provided JSON
 const portfolioData = {
@@ -99,8 +100,17 @@ const portfolioData = {
   },
 }
 
+const router = useRouter();
+
 export default function StockRecommendationPage() {
-    const [portfolioRecommendationData, setPortfolioRecommendationData] = useState(portfolioData);
+  // Fetch the portfolio recommendation data from session storage
+  const storedPortfolio = sessionStorage.getItem("portfolioRecommendation") || null;
+  if( storedPortfolio === null) {
+    router.push("/riskAnalysis")
+  }
+    const [portfolioRecommendationData, setPortfolioRecommendationData] = useState(
+      storedPortfolio ? JSON.parse(storedPortfolio) : null
+    );
 
     //This is for testing purposes only. Remove this in production.
     // useEffect(() => {
@@ -129,7 +139,7 @@ export default function StockRecommendationPage() {
     // fetchStockRecomendationAI();
     // },[])
 
-   console.log(portfolioRecommendationData)
+
   // Updated path to access the recommendation data
   const recommendation = portfolioRecommendationData.initialAnalysis.initialAnalysis.portfolio_recommendation
   const stocks = recommendation.stocks_etfs

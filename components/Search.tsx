@@ -42,7 +42,7 @@ const Search = () => {
 
   const handleSearchResultClick = (ticker: string) => {
     console.log("Clicked on:", ticker);
-    router.push(`/${ticker}`);
+    router.push(`/${ticker}`) ;
   };
 
   return (

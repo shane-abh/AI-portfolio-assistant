@@ -1,7 +1,7 @@
 import { ChatGroq } from "@langchain/groq";
 import { PromptTemplate } from "@langchain/core/prompts";
-import { stockAnalysisPrompt, investmentAnalysisPrompt } from "../../utils/constants";
-import {llama70bversatile} from "../../utils/llm";
+import { stockAnalysisPromptString, investmentAnalysisPrompt } from "../utils/constants";
+import {llama70bversatile} from "../utils/llm";
 
 export default async function handler(req, res) {
   const { stockSymbol } = req.body;
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   // Step 1: Get initial stock analysis using a prompt template
   const stockAnalysisTemplate = new PromptTemplate({
-    template: `${stockAnalysisPrompt}`,
+    template: `${stockAnalysisPromptString}`,
     inputVariables: ["symbol"],
   });
 

@@ -137,7 +137,7 @@ Output Requirements:
 Ensure the recommendations align with current market trends and economic outlook. ### **Strict JSON Schema:**
 {JSONSchema}`;
 
-export const stockAnalysisPrompt = `You are a helpful stock market portfolio assistant. 
+export const stockAnalysisPromptString = `You are a helpful stock market portfolio assistant. 
     Analyze the stock symbol {symbol} and provide basic insights. 
     Ensure the response is a short paragraph.`;
 

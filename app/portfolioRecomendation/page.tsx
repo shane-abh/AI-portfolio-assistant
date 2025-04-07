@@ -112,32 +112,7 @@ export default function StockRecommendationPage() {
       storedPortfolio ? JSON.parse(storedPortfolio) : null
     );
 
-    //This is for testing purposes only. Remove this in production.
-    // useEffect(() => {
-    //      async function fetchStockRecomendationAI() {
-    //   const result = await fetch("/api/portfolioRecommendation", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json", 
-    //     },
-    //     body: JSON.stringify({
-    //         "investmentAmount" : 150000,
-    //        "riskTolerance" : "Low",
-    //        "timeHorizon" : "Medium-term (3-7 years)",
-    //        "preferredSectors" : ["any"],
-    //        "investmentStrategy" : "Growth",
-    //        "geographicPreference" : "USA",
-    //        "marketConditions" : "Neutral"
-    //    }  ),
-    //   });
-  
-    //   const data = await result.json();
-    //   setPortfolioRecommendationData(data);
-      
-    // }
-  
-    // fetchStockRecomendationAI();
-    // },[])
+    
 
 
   // Updated path to access the recommendation data

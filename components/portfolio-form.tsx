@@ -415,7 +415,7 @@ export default function PortfolioForm({ mode, onSubmit, defaultValues = {} }: Po
                             id={sector}
                           />
                         </FormControl>
-                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={sector} >
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor= >
                           {sector}
                         </label>
                       </div>

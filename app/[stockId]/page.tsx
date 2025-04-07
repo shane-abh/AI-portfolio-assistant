@@ -94,70 +94,9 @@ export default function StockIdPage({ params }: { params: Params }) {
 
  
   
-  const [stockData, setStockData] = useState<StockData>({
-    Symbol: "AAPL",
-    AssetType: "Common Stock",
-    Name: " {stockData.Name} Inc",
-    Description:
-      " {stockData.Name} Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services.  {stockData.Name} is the world's largest technology company by revenue (totalling $274.5 billion in 2020) and, since January 2021, the world's most valuable company. As of 2021,  {stockData.Name} is the world's fourth-largest PC vendor by unit sales, and fourth-largest smartphone manufacturer. It is one of the Big Five American information technology companies, along with Amazon, Google, Microsoft, and Facebook.",
-    CIK: "320193",
-    Exchange: "NASDAQ",
-    Currency: "USD",
-    Country: "USA",
-    Sector: "TECHNOLOGY",
-    Industry: "ELECTRONIC COMPUTERS",
-    Address: "ONE INFINITE LOOP, CUPERTINO, CA, US",
-    OfficialSite: "https://www. {stockData.Name}.com",
-    FiscalYearEnd: "September",
-    LatestQuarter: "2024-12-31",
-    MarketCapitalization: "3336859288000",
-    EBITDA: "137352004000",
-    PERatio: "35.2",
-    PEGRatio: "2.022",
-    BookValue: "4.438",
-    DividendPerShare: "0.99",
-    DividendYield: "0.0045",
-    EPS: "6.31",
-    RevenuePerShareTTM: "25.97",
-    ProfitMargin: "0.243",
-    OperatingMarginTTM: "0.345",
-    ReturnOnAssetsTTM: "0.225",
-    ReturnOnEquityTTM: "1.365",
-    RevenueTTM: "395760009000",
-    GrossProfitTTM: "184102994000",
-    DilutedEPSTTM: "6.31",
-    QuarterlyEarningsGrowthYOY: "0.101",
-    QuarterlyRevenueGrowthYOY: "0.04",
-    AnalystTargetPrice: "252.59",
-    AnalystRatingStrongBuy: "7",
-    AnalystRatingBuy: "21",
-    AnalystRatingHold: "13",
-    AnalystRatingSell: "2",
-    AnalystRatingStrongSell: "2",
-    TrailingPE: "35.2",
-    ForwardPE: "29.76",
-    PriceToSalesRatioTTM: "8.43",
-    PriceToBookRatio: "49.03",
-    EVToRevenue: "8.38",
-    EVToEBITDA: "24.14",
-    Beta: "1.178",
-    "52WeekHigh": "259.81",
-    "52WeekLow": "163.31",
-    "50DayMovingAverage": "230.25",
-    "200DayMovingAverage": "229.1",
-    SharesOutstanding: "15022100000",
-    DividendDate: "2025-02-13",
-    ExDividendDate: "2025-02-10",
-  });
-  const [stockAnalysis, setStockAnalysis] = useState<any>({
-    AIinitialAnalysis:
-      "AAPL, the stock symbol for  {stockData.Name} Inc., is a technology giant with a market capitalization of over $2 trillion. As a leader in the consumer electronics industry,  {stockData.Name}'s stock has consistently shown stability and growth potential. With a diverse product lineup, including iPhones, Macs, and iPads, the company has maintained a loyal customer base and strong brand reputation. Historically, AAPL has demonstrated a tendency to outperform the broader market, with a 5-year average annual return of around 20%. However, investors should remain aware of potential risks, such as intense competition in the tech sector and dependence on a few key products, when considering adding AAPL to their portfolio.",
-    AIinvestmentAnalysis: {
-      recommendation: "Good",
-      reason:
-        "The stock has a strong financial position with high market capitalization, revenue, and profit margin. The PE ratio and PEG ratio indicate a stable growth potential. Additionally, the analyst ratings show a majority of strong buy and buy recommendations, suggesting a positive outlook for the stock in the next 3 to 5 years.",
-    },
-  });
+  const [stockData, setStockData] = useState<StockData>();
+  const [stockAnalysis, setStockAnalysis] = useState<any>();
+  const[isLoading,  setIsLoading] = useState(true)
 
   const [chartData, setChartData] = useState<any>([]);
 
@@ -169,24 +108,25 @@ export default function StockIdPage({ params }: { params: Params }) {
       const data = await res.json();
       setChartData(data);
     }
-    fetchStockData();
-
-
-    // async function fetchStockAnalysisAI() {
-    //   const result = await fetch("/api/stock-analysis", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json", 
-    //     },
-    //     body: JSON.stringify({ stockSymbol: stockId }),
-    //   });
-  
-    //   const data = await result.json();
-    //   setStockAnalysis(data);
-    //   setStockData(data.stockData);
-    // }
-  
-    // fetchStockAnalysisAI();
+    
+    
+    async function fetchStockAnalysisAI() {
+        const result = await fetch("/api/stock-analysis", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json", 
+              },
+              body: JSON.stringify({ stockSymbol: stockId }),
+            });
+          
+            const data = await result.json();
+            setStockAnalysis(data);
+            setStockData(data.stockData);
+            setIsLoading(false)
+          }
+          
+          fetchStockData();
+          fetchStockAnalysisAI();
   }, [stockId]);
 
   const convertDateToMonth = (dateStr: string) => {
@@ -210,44 +150,28 @@ export default function StockIdPage({ params }: { params: Params }) {
       }))
     : [];
 
-  // console.log(transformedData)
+
 
 
 
   
 
   return (
-    <div style={{ width: "100%", height: "400px" }}>
-      <h1>{stockId}</h1>
+    <div >
       
 
-      <h2>Stock Analyzed by AI</h2>
-      {stockAnalysis && (<div>
-       {stockAnalysis.initialAnalysis }
-       {stockAnalysis.investmentAnalysis}
-        </div>)}
-
-        <div className="container mx-auto py-6 px-4 max-w-7xl">
+    {!isLoading ?  (  <div className="container mx-auto py-6 px-4 max-w-7xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            {stockData.Symbol}
-            <span className="text-lg font-normal text-gray-500">{stockData.Name}</span>
+            {stockData.Name}
+            <span className="text-lg font-normal text-gray-500">{stockData.Symbol}</span>
           </h1>
           <p className="text-sm text-gray-500">
             {stockData.Exchange} • {stockData.Currency}
           </p>
         </div>
-        <div className="mt-4 md:mt-0">
-          <div className="text-3xl font-bold flex items-center">
-            {formatCurrency(currentPrice)}
-            <span className={`ml-2 text-lg flex items-center ${priceChange >= 0 ? "text-green-600" : "text-red-600"}`}>
-              {priceChange >= 0 ? <ArrowUp className="h-4 w-4 mr-1" /> : <ArrowDown className="h-4 w-4 mr-1" />}
-              {formatCurrency(Math.abs(priceChange))} ({percentChange.toFixed(2)}%)
-            </span>
-          </div>
-          <p className="text-sm text-gray-500">Last updated: April 1, 2025, 3:42 PM</p>
-        </div>
+       
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
@@ -522,7 +446,7 @@ export default function StockIdPage({ params }: { params: Params }) {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </div>) : (<h1 className="text-3xl font-bold">Loading...</h1>)}
     </div>
   );
 }

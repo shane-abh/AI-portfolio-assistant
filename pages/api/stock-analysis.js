@@ -1,7 +1,7 @@
 import { ChatGroq } from "@langchain/groq";
 import { PromptTemplate } from "@langchain/core/prompts";
-import { stockAnalysisPromptString, investmentAnalysisPrompt } from "../utils/constants";
-import {llama70bversatile} from "../utils/llm";
+import { stockAnalysisPromptString, investmentAnalysisPrompt } from "./utils/constants";
+import {llama70bversatile} from "./utils/llm";
 
 export default async function handler(req, res) {
   const { stockSymbol } = req.body;

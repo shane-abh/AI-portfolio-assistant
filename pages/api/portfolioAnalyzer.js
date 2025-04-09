@@ -1,8 +1,8 @@
 
 import { PromptTemplate } from "@langchain/core/prompts";
-import { cleanJSONUsingLLM } from "../utils/utils";
-import { portfolioAnalyzerPrompt, portfolioAnalyzerResultDataStructure } from "../utils/constants";
-import {gemma2LLM} from "../utils/llm";
+import { cleanJSONUsingLLM } from "./utils/utils";
+import { portfolioAnalyzerPrompt, portfolioAnalyzerResultDataStructure } from "./utils/constants";
+import {gemma2LLM} from "./utils/llm";
 
 
 export default async function handler(req, res) {

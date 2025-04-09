@@ -283,7 +283,7 @@ export default function PortfolioForm({ mode, onSubmit, defaultValues = {} }: Po
                 <FormItem>
                   <FormLabel>Geographic Preference</FormLabel>
                   <FormControl>
-                    <Input value="USA" disabled {...field} />
+                    <Input disabled {...field} />
                   </FormControl>
                   <FormDescription>Currently limited to USA markets</FormDescription>
                 </FormItem>
@@ -336,7 +336,11 @@ export default function PortfolioForm({ mode, onSubmit, defaultValues = {} }: Po
             <div className="mt-4">
               <div className="flex justify-between items-center mb-2">
                 <FormLabel>Selected Stocks</FormLabel>
-                <Badge variant="outline">Remaining: {getRemainingAllocation()}%</Badge>
+                <Badge variant="outline">Remaining: {getRemainingAllocation() < 0 && (
+  <span className="text-destructive text-sm font-medium">
+    Total allocation exceeds 100%
+  </span>
+)}%</Badge>
               </div>
               <Card>
                 <CardContent className="p-4">
@@ -415,7 +419,7 @@ export default function PortfolioForm({ mode, onSubmit, defaultValues = {} }: Po
                             id={sector}
                           />
                         </FormControl>
-                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor= >
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" htmlFor={sector} >
                           {sector}
                         </label>
                       </div>

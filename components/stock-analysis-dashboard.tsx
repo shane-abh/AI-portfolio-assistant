@@ -34,7 +34,7 @@ import { PriceChart } from "./price-chart";
 import { RecommendationCard } from "./recommendation-card";
 import { TechnicalIndicators } from "./technical-indicators";
 import { AIInsights } from "./ai-insights";
-import { formatCurrency, formatNumber, formatPercent } from "@/pages/utils/utils";
+import { formatCurrency, formatNumber, formatPercent } from "@/pages/api/utils/utils";
 
 // This would normally come from an API
 // const stockData = {

@@ -40,7 +40,7 @@ import {
   formatMarketCap,
   formatNumber,
   formatPercent,
-} from "../../pages/utils/utils";
+} from "../../pages/api/utils/utils";
 import {
   ArrowDown,
   ArrowUp,
@@ -433,7 +433,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                     <div className="flex items-center gap-1 text-sm text-gray-500 mb-1">
                       <span>EPS (TTM)</span>
                       <TooltipProvider>
-                        <Tooltip>
+                        <UITooltip>
                           <TooltipTrigger>
                             <Info className="h-3.5 w-3.5" />
                           </TooltipTrigger>
@@ -443,7 +443,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                               key indicator of profitability
                             </p>
                           </TooltipContent>
-                        </Tooltip>
+                        </UITooltip>
                       </TooltipProvider>
                     </div>
                     <div className="text-2xl font-bold">
@@ -461,7 +461,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                     <div className="flex items-center gap-1 text-sm text-gray-500 mb-1">
                       <span>P/E Ratio</span>
                       <TooltipProvider>
-                        <Tooltip>
+                        <UITooltip>
                           <TooltipTrigger>
                             <Info className="h-3.5 w-3.5" />
                           </TooltipTrigger>
@@ -471,7 +471,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                               valuation relative to earnings
                             </p>
                           </TooltipContent>
-                        </Tooltip>
+                        </UITooltip>
                       </TooltipProvider>
                     </div>
                     <div className="text-2xl font-bold">
@@ -485,7 +485,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                     <div className="flex items-center gap-1 text-sm text-gray-500 mb-1">
                       <span>Revenue (TTM)</span>
                       <TooltipProvider>
-                        <Tooltip>
+                        <UITooltip>
                           <TooltipTrigger>
                             <Info className="h-3.5 w-3.5" />
                           </TooltipTrigger>
@@ -494,7 +494,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                               Total revenue over the trailing twelve months
                             </p>
                           </TooltipContent>
-                        </Tooltip>
+                        </UITooltip>
                       </TooltipProvider>
                     </div>
                     <div className="text-2xl font-bold">
@@ -512,7 +512,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                     <div className="flex items-center gap-1 text-sm text-gray-500 mb-1">
                       <span>Profit Margin</span>
                       <TooltipProvider>
-                        <Tooltip>
+                        <UITooltip>
                           <TooltipTrigger>
                             <Info className="h-3.5 w-3.5" />
                           </TooltipTrigger>
@@ -522,7 +522,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                               efficiency
                             </p>
                           </TooltipContent>
-                        </Tooltip>
+                        </UITooltip>
                       </TooltipProvider>
                     </div>
                     <div className="text-2xl font-bold">
@@ -530,7 +530,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                     </div>
                     <div className="text-sm text-gray-500">
                       Operating:{" "}
-                      {formatPercent(stockData.OperatingMarginTTM * 100)}
+                      {formatPercent(parseFloat(stockData.OperatingMarginTTM) * 100)}
                     </div>
                   </div>
                 </div>

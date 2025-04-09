@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useNavigation } from "../../context/NavigationContext";
 import {
   LineChart,
   Line,
@@ -53,7 +55,7 @@ import { set } from "react-hook-form";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import InteractiveLoading from "@/components/interactive-loading";
-import "../globals.css"
+import "../globals.css";
 
 interface Params {
   stockId: string;
@@ -115,7 +117,20 @@ interface StockData {
 }
 
 export default function StockIdPage({ params }: { params: Params }) {
+  const router = useRouter();
+  const { isValidAccess } = useNavigation();
   const { stockId } = params;
+
+  useEffect(() => {
+    if (!isValidAccess) {
+      router.push("/search");
+    }
+  }, [isValidAccess, router]);
+
+  if (!isValidAccess) {
+    return null; // or a loading state
+  }
+
   const [currentPrice] = useState(222.31); // This would normally be fetched from an API
   const previousClose = 220.15; // This would normally be fetched from an API
   const priceChange = currentPrice - previousClose;
@@ -198,7 +213,7 @@ export default function StockIdPage({ params }: { params: Params }) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <Card className="lg:col-span-2">
               <CardHeader className="pb-2">
-                <CardTitle>Price Chart</CardTitle>
+                <CardTitle></CardTitle>
               </CardHeader>
               <CardContent>
                 <PriceChart data={formattedData} />
@@ -237,7 +252,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                   <p className="text-gray-800">{stockAnalysis.AIAnalysis}</p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-3 gap-6 mb-4">
                   <div>
                     <h3 className="font-medium mb-2 flex items-center gap-2">
                       <TrendingUp className="h-4 w-4 text-green-600" />
@@ -267,10 +282,14 @@ export default function StockIdPage({ params }: { params: Params }) {
                       <p className="text-sm text-gray-700">
                         {stockData.Name} maintains excellent financial health
                         with a profit margin of{" "}
-                        {formatPercent(parseFloat(stockData.ProfitMargin) * 100)} and return
-                        on equity of{" "}
-                        {formatPercent(parseFloat(stockData.ReturnOnEquityTTM) * 100)},
-                        indicating efficient operations and strong
+                        {formatPercent(
+                          parseFloat(stockData.ProfitMargin) * 100
+                        )}{" "}
+                        and return on equity of{" "}
+                        {formatPercent(
+                          parseFloat(stockData.ReturnOnEquityTTM) * 100
+                        )}
+                        , indicating efficient operations and strong
                         profitability.
                       </p>
                     </div>
@@ -297,8 +316,8 @@ export default function StockIdPage({ params }: { params: Params }) {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-medium mb-2">
+                <div className="" >
+                  <h3 className="font-medium mb-2 mt-10 ">
                     AI Investment Recommendation
                   </h3>
                   <div
@@ -483,7 +502,9 @@ export default function StockIdPage({ params }: { params: Params }) {
                     </div>
                     <div className="text-sm text-green-600">
                       +
-                      {formatPercent(parseFloat(stockData.QuarterlyRevenueGrowthYOY) * 100)}{" "}
+                      {formatPercent(
+                        parseFloat(stockData.QuarterlyRevenueGrowthYOY) * 100
+                      )}{" "}
                       YoY
                     </div>
                   </div>
@@ -517,7 +538,7 @@ export default function StockIdPage({ params }: { params: Params }) {
             </Card>
 
             {/* Add the AI Insights component */}
-            <Card className="md:col-span-3">
+            <Card className="md:col-span-3 ">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Lightbulb className="h-5 w-5 text-amber-500" />
@@ -538,7 +559,7 @@ export default function StockIdPage({ params }: { params: Params }) {
           </div>
         </div>
       ) : (
-        <InteractiveLoading context="stock"/>
+        <InteractiveLoading context="stock" />
       )}
       <Footer />
     </div>

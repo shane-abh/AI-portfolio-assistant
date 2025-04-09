@@ -131,7 +131,7 @@ export function AIInsights({ stockData, formatPercent }: AIInsightsProps) {
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 px-4">
         <div>
           <div className="flex justify-between mb-1">
             <div className="flex items-center gap-1">

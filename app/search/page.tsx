@@ -1,41 +1,47 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { History, Star } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import Link from "next/link"
-import StockSearchBar from "@/components/stock-search-bar"
-import "../globals.css"
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useNavigation } from "../../context/NavigationContext";
+import { History, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
+import StockSearchBar from "@/components/stock-search-bar";
+import "../globals.css";
 
 export default function SearchPage() {
-  const [recentSearches, setRecentSearches] = useState<any[]>([])
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const initialQuery = searchParams?.get("q") || ""
+  const [recentSearches, setRecentSearches] = useState<any[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams?.get("q") || "";
+  const { setValidAccess } = useNavigation();
 
   // Load recent searches from localStorage on component mount
   useEffect(() => {
-    const savedSearches = localStorage.getItem("recentStockSearches")
+    const savedSearches = localStorage.getItem("recentStockSearches");
     if (savedSearches) {
-      setRecentSearches(JSON.parse(savedSearches))
+      setRecentSearches(JSON.parse(savedSearches));
     }
-  }, [])
+  }, []);
 
   const handleSearchResultClick = (ticker: string, name: string) => {
     // Update recent searches state
-    const updatedSearches = [{ ticker, name }, ...recentSearches.filter((item) => item.ticker !== ticker).slice(0, 4)]
-    setRecentSearches(updatedSearches)
+    const updatedSearches = [
+      { ticker, name },
+      ...recentSearches.filter((item) => item.ticker !== ticker).slice(0, 4),
+    ];
+    setRecentSearches(updatedSearches);
 
     // Navigate to stock page
-    router.push(`/stocks/${ticker.toLowerCase()}`)
-  }
+    setValidAccess(true);
+    router.push(`/${ticker.toLowerCase()}`);
+  };
 
   const clearRecentSearches = () => {
-    localStorage.removeItem("recentStockSearches")
-    setRecentSearches([])
-  }
+    localStorage.removeItem("recentStockSearches");
+    setRecentSearches([]);
+  };
 
   // Mock popular stocks for demonstration
   const popularStocks = [
@@ -45,14 +51,16 @@ export default function SearchPage() {
     { ticker: "AMZN", name: "Amazon.com Inc." },
     { ticker: "TSLA", name: "Tesla, Inc." },
     { ticker: "META", name: "Meta Platforms, Inc." },
-  ]
+  ];
 
   return (
     <div className="container px-4 py-8 mx-auto md:px-6">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold">Stock Search</h1>
-          <p className="mt-2 text-gray-600">Find detailed information about any publicly traded company</p>
+          <p className="mt-2 text-gray-600">
+            Find detailed information about any publicly traded company
+          </p>
         </div>
 
         <div className="relative mb-8">
@@ -73,7 +81,11 @@ export default function SearchPage() {
                   <h2 className="text-lg font-medium">Recent Searches</h2>
                 </div>
                 {recentSearches.length > 0 && (
-                  <Button variant="ghost" size="sm" onClick={clearRecentSearches}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearRecentSearches}
+                  >
                     Clear
                   </Button>
                 )}
@@ -85,16 +97,24 @@ export default function SearchPage() {
                       <Button
                         variant="ghost"
                         className="w-full justify-start text-left"
-                        onClick={() => handleSearchResultClick(search.ticker, search.name)}
+                        onClick={() =>
+                          handleSearchResultClick(search.ticker, search.name)
+                        }
                       >
-                        <span className="font-medium mr-2">{search.ticker}</span>
-                        <span className="text-gray-500 truncate">{search.name}</span>
+                        <span className="font-medium mr-2">
+                          {search.ticker}
+                        </span>
+                        <span className="text-gray-500 truncate">
+                          {search.name}
+                        </span>
                       </Button>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-gray-500 text-center py-4">No recent searches</p>
+                <p className="text-gray-500 text-center py-4">
+                  No recent searches
+                </p>
               )}
             </CardContent>
           </Card>
@@ -112,7 +132,9 @@ export default function SearchPage() {
                     key={index}
                     variant="outline"
                     className="justify-start"
-                    onClick={() => handleSearchResultClick(stock.ticker, stock.name)}
+                    onClick={() =>
+                      handleSearchResultClick(stock.ticker, stock.name)
+                    }
                   >
                     <span className="font-medium">{stock.ticker}</span>
                   </Button>
@@ -126,7 +148,9 @@ export default function SearchPage() {
           <p className="text-gray-600 mb-4">Not sure what to search for?</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/riskProfile">
-              <Button className="bg-green-600 hover:bg-green-700">Complete Risk Profile</Button>
+              <Button className="bg-green-600 hover:bg-green-700">
+                Complete Risk Profile
+              </Button>
             </Link>
             <Link href="/portfolioRecommendation">
               <Button variant="outline">View Recommendations</Button>
@@ -135,5 +159,5 @@ export default function SearchPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

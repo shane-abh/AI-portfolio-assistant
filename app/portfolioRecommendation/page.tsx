@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   BarChart,
   Bar,
@@ -9,18 +9,46 @@ import {
   Cell,
   PieChart,
   Pie,
-} from "recharts"
-import { AlertTriangle, ArrowRight, DollarSign, LineChart, PieChartIcon, Shield, TrendingUp } from "lucide-react"
+} from "recharts";
+import {
+  AlertTriangle,
+  ArrowRight,
+  DollarSign,
+  LineChart,
+  PieChartIcon,
+  Shield,
+  TrendingUp,
+} from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Separator } from "@/components/ui/separator"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import "../globals.css";
 
 // Updated data structure based on the provided JSON
 const portfolioData = {
@@ -72,87 +100,144 @@ const portfolioData = {
             stock_name: "Utilities Select Sector SPDR Fund",
             sector: "Utilities",
             percentage_allocation: 15,
-            justification: "Provides stability and consistent dividends, balancing the portfolio's risk.",
+            justification:
+              "Provides stability and consistent dividends, balancing the portfolio's risk.",
           },
         ],
         expected_return: "7-9% annually",
         risk_level: "Moderate",
         comparison_to_benchmark: {
           benchmark: "S&P 500",
-          comparison: "Expected to perform similarly or slightly better due to focus on growth sectors.",
+          comparison:
+            "Expected to perform similarly or slightly better due to focus on growth sectors.",
         },
         potential_risks: [
           {
             risk: "Market downturns affecting Technology stocks",
-            management_strategy: "Regular portfolio rebalancing and diversification.",
+            management_strategy:
+              "Regular portfolio rebalancing and diversification.",
           },
           {
             risk: "Interest rate changes impacting Real Estate",
-            management_strategy: "Monitor interest rate trends and adjust allocations as needed.",
+            management_strategy:
+              "Monitor interest rate trends and adjust allocations as needed.",
           },
           {
             risk: "Sector-specific risks in Technology and Semiconductors",
-            management_strategy: "Stay informed about market trends and regulatory changes.",
+            management_strategy:
+              "Stay informed about market trends and regulatory changes.",
           },
         ],
       },
     },
   },
-}
-
-const router = useRouter();
+};
 
 export default function StockRecommendationPage() {
+  const router = useRouter();
   // Fetch the portfolio recommendation data from session storage
-  const storedPortfolio = sessionStorage.getItem("portfolioRecommendation") || null;
-  if( storedPortfolio === null) {
-    router.push("/riskAnalysis")
+  const [portfolioRecommendationData, setPortfolioRecommendationData] = useState<{
+    initialAnalysis: {
+      initialAnalysis: {
+        portfolio_recommendation: {
+          investment_amount: number;
+          risk_tolerance: string;
+          time_horizon: string;
+          preferred_sectors: string[];
+          investment_strategy: string;
+          geographic_preference: string;
+          market_conditions: string;
+          stocks_etfs: {
+            stock_symbol: string;
+            stock_name: string;
+            sector: string;
+            percentage_allocation: number;
+            justification: string;
+          }[];
+          expected_return: string;
+          risk_level: string;
+          comparison_to_benchmark: {
+            benchmark: string;
+            comparison: string;
+          };
+          potential_risks: {
+            risk: string;
+            management_strategy: string;
+          }[];
+        };
+      };
+    };
+  } | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedPortfolio = sessionStorage.getItem("portfolioRecommendation");
+      if (!storedPortfolio) {
+        router.push("/riskProfile");
+      } else {
+        setPortfolioRecommendationData(JSON.parse(storedPortfolio));
+      }
+    }
+  }, [router]);
+
+  if (!portfolioRecommendationData) {
+    // Render a loading state or placeholder that matches the server-rendered content
+    return <div>Loading...</div>;
   }
-    const [portfolioRecommendationData, setPortfolioRecommendationData] = useState(
-      storedPortfolio ? JSON.parse(storedPortfolio) : null
-    );
 
-    
+  const recommendation = 
+    portfolioRecommendationData?.initialAnalysis?.initialAnalysis
+      ?.portfolio_recommendation;
 
+  if (!recommendation) {
+    // Render a fallback UI that matches the server-rendered content
+    return <div>Redirecting...</div>;
+  }
 
-  // Updated path to access the recommendation data
-  const recommendation = portfolioRecommendationData.initialAnalysis.initialAnalysis.portfolio_recommendation
-  const stocks = recommendation.stocks_etfs
+  const stocks = recommendation.stocks_etfs;
 
   // Prepare data for charts
   const chartData = stocks.map((stock) => ({
     name: stock.stock_symbol,
     value: stock.percentage_allocation,
     fullName: stock.stock_name,
-  }))
+  }));
 
   // Generate colors for the chart
-  const colors = ["#f43f5e", "#ec4899", "#8b5cf6", "#6366f1", "#0ea5e9"]
+  const colors = ["#f43f5e", "#ec4899", "#8b5cf6", "#6366f1", "#0ea5e9"];
 
   // Calculate risk score (for visualization)
-  const riskScoreMap = { Low: 25, Moderate: 50, Medium: 50, High: 75, "Very High": 100 }
-  const riskScore = riskScoreMap[recommendation.risk_level] || 50
+  const riskScoreMap = {
+    Low: 25,
+    Moderate: 50,
+    Medium: 50,
+    High: 75,
+    "Very High": 100,
+  };
+  const riskScore = riskScoreMap[recommendation.risk_level as keyof typeof riskScoreMap] || 50;
 
   // Extract min expected return for visualization
-  const expectedReturnString = recommendation.expected_return.split(" ")[0] // Get "7-9%" part
-  const minExpectedReturn = Number.parseInt(expectedReturnString.split("-")[0])
+  const expectedReturnString = recommendation.expected_return.split(" ")[0]; // Get "7-9%" part
+  const minExpectedReturn = Number.parseInt(expectedReturnString.split("-")[0]);
 
   // Calculate sector distribution using the explicit sector field
-  const sectorDistribution = stocks.reduce((acc, stock) => {
-    const sector = stock.sector || "Other"
+  const sectorDistribution = stocks.reduce((acc: Record<string, number>, stock) => {
+    const sector = stock.sector || "Other";
 
     if (!acc[sector]) {
-      acc[sector] = 0
+      acc[sector] = 0;
     }
-    acc[sector] += stock.percentage_allocation
-    return acc
-  }, {})
+    acc[sector] += stock.percentage_allocation;
+    return acc;
+  }, {});
 
   // Convert to array format for the chart
-  const sectorChartData = Object.entries(sectorDistribution).map(([name, value]) => ({
-    name,
-    value,
-  }))
+  const sectorChartData = Object.entries(sectorDistribution).map(
+    ([name, value]) => ({
+      name,
+      value,
+    })
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -161,17 +246,30 @@ export default function StockRecommendationPage() {
         <div className="container mx-auto py-6 px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Investment Portfolio</h1>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Personalized recommendation based on your profile</p>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                Investment Portfolio
+              </h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-1">
+                Personalized recommendation based on your profile
+              </p>
             </div>
             <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
-              <Badge variant="outline" className="text-sm font-medium px-3 py-1">
+              <Badge
+                variant="outline"
+                className="text-sm font-medium px-3 py-1"
+              >
                 {recommendation.risk_tolerance} Risk
               </Badge>
-              <Badge variant="outline" className="text-sm font-medium px-3 py-1">
+              <Badge
+                variant="outline"
+                className="text-sm font-medium px-3 py-1"
+              >
                 {recommendation.time_horizon}
               </Badge>
-              <Badge variant="outline" className="text-sm font-medium px-3 py-1">
+              <Badge
+                variant="outline"
+                className="text-sm font-medium px-3 py-1"
+              >
                 {recommendation.investment_strategy} Strategy
               </Badge>
             </div>
@@ -186,7 +284,9 @@ export default function StockRecommendationPage() {
           <Card className="bg-gradient-to-br from-rose-50 to-white dark:from-gray-800 dark:to-gray-900 border-rose-100 dark:border-gray-700">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg text-rose-700 dark:text-rose-400">Investment Amount</CardTitle>
+                <CardTitle className="text-lg text-rose-700 dark:text-rose-400">
+                  Investment Amount
+                </CardTitle>
                 <DollarSign className="h-5 w-5 text-rose-500" />
               </div>
             </CardHeader>
@@ -200,15 +300,21 @@ export default function StockRecommendationPage() {
           <Card className="bg-gradient-to-br from-purple-50 to-white dark:from-gray-800 dark:to-gray-900 border-purple-100 dark:border-gray-700">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg text-purple-700 dark:text-purple-400">Expected Return</CardTitle>
+                <CardTitle className="text-lg text-purple-700 dark:text-purple-400">
+                  Expected Return
+                </CardTitle>
                 <TrendingUp className="h-5 w-5 text-purple-500" />
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">{recommendation.expected_return}</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                {recommendation.expected_return}
+              </p>
               <div className="mt-2 flex items-center">
                 <Progress value={minExpectedReturn * 10} className="h-2" />
-                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">Target</span>
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                  Target
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -216,15 +322,21 @@ export default function StockRecommendationPage() {
           <Card className="bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900 border-indigo-100 dark:border-gray-700">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg text-indigo-700 dark:text-indigo-400">Risk Level</CardTitle>
+                <CardTitle className="text-lg text-indigo-700 dark:text-indigo-400">
+                  Risk Level
+                </CardTitle>
                 <Shield className="h-5 w-5 text-indigo-500" />
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">{recommendation.risk_level}</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                {recommendation.risk_level}
+              </p>
               <div className="mt-2 flex items-center">
                 <Progress value={riskScore} className="h-2" />
-                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">{riskScore}%</span>
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">
+                  {riskScore}%
+                </span>
               </div>
             </CardContent>
           </Card>
@@ -237,7 +349,9 @@ export default function StockRecommendationPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Allocation Strategy</CardTitle>
-                  <CardDescription>Recommended stock distribution</CardDescription>
+                  <CardDescription>
+                    Recommended stock distribution
+                  </CardDescription>
                 </div>
                 <PieChartIcon className="h-5 w-5 text-gray-400" />
               </div>
@@ -245,16 +359,26 @@ export default function StockRecommendationPage() {
             <CardContent>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <BarChart
+                    data={chartData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  >
                     <XAxis type="number" domain={[0, 100]} />
                     <YAxis type="category" dataKey="name" width={50} />
                     <RechartsTooltip
-                      formatter={(value, name, props) => [`${value}%`, props.payload.fullName]}
+                      formatter={(value, name, props) => [
+                        `${value}%`,
+                        props.payload.fullName,
+                      ]}
                       labelFormatter={() => "Allocation"}
                     />
                     <Bar dataKey="value" radius={[0, 4, 4, 0]}>
                       {chartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={colors[index % colors.length]}
+                        />
                       ))}
                     </Bar>
                   </BarChart>
@@ -264,7 +388,10 @@ export default function StockRecommendationPage() {
             <CardFooter className="border-t bg-gray-50 dark:bg-gray-800/50 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center">
                 <LineChart className="h-4 w-4 mr-2" />
-                <span>Balanced allocation across {recommendation.preferred_sectors.join(" and ")} sectors</span>
+                <span>
+                  Balanced allocation across{" "}
+                  {recommendation.preferred_sectors.join(" and ")} sectors
+                </span>
               </div>
             </CardFooter>
           </Card>
@@ -288,7 +415,10 @@ export default function StockRecommendationPage() {
                       dataKey="value"
                     >
                       {sectorChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={colors[index % colors.length]}
+                        />
                       ))}
                     </Pie>
                     <RechartsTooltip formatter={(value) => [`${value}%`]} />
@@ -314,7 +444,9 @@ export default function StockRecommendationPage() {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle>Recommended Stocks</CardTitle>
-            <CardDescription>Detailed breakdown of recommended investments</CardDescription>
+            <CardDescription>
+              Detailed breakdown of recommended investments
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -335,7 +467,9 @@ export default function StockRecommendationPage() {
                         <div className="flex items-center">
                           <div
                             className="w-2 h-2 rounded-full mr-2"
-                            style={{ backgroundColor: colors[index % colors.length] }}
+                            style={{
+                              backgroundColor: colors[index % colors.length],
+                            }}
                           ></div>
                           {stock.stock_symbol}
                         </div>
@@ -355,7 +489,11 @@ export default function StockRecommendationPage() {
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-auto p-0 text-left font-normal">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-auto p-0 text-left font-normal"
+                              >
                                 <span className="truncate block max-w-[300px]">
                                   {stock.justification.substring(0, 60)}...
                                 </span>
@@ -381,7 +519,8 @@ export default function StockRecommendationPage() {
             <CardHeader className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
               <CardTitle>Benchmark Comparison</CardTitle>
               <CardDescription>
-                Performance relative to {recommendation.comparison_to_benchmark.benchmark}
+                Performance relative to{" "}
+                {recommendation.comparison_to_benchmark.benchmark}
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
@@ -390,7 +529,9 @@ export default function StockRecommendationPage() {
                   <LineChart className="h-6 w-6 text-gray-600 dark:text-gray-300" />
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">Performance Analysis</h4>
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">
+                    Performance Analysis
+                  </h4>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">
                     {recommendation.comparison_to_benchmark.comparison}
                   </p>
@@ -410,7 +551,9 @@ export default function StockRecommendationPage() {
           <Card>
             <CardHeader className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-900">
               <CardTitle>Risk Assessment</CardTitle>
-              <CardDescription>Key risks and management strategies</CardDescription>
+              <CardDescription>
+                Key risks and management strategies
+              </CardDescription>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="space-y-4">
@@ -420,8 +563,12 @@ export default function StockRecommendationPage() {
                       <AlertTriangle className="h-5 w-5 text-amber-500" />
                     </div>
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white">{risk.risk}</h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">{risk.management_strategy}</p>
+                      <h4 className="font-medium text-gray-900 dark:text-white">
+                        {risk.risk}
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
+                        {risk.management_strategy}
+                      </p>
                     </div>
                   </div>
                 ))}
@@ -437,6 +584,5 @@ export default function StockRecommendationPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-

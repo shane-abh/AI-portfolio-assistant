@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -33,11 +33,8 @@ import {
   Legend,
 } from "recharts";
 import { useRouter } from "next/navigation";
+import "../globals.css"
 
-
-
-
-const router = useRouter();
 // Calculate sector allocations
 const calculateSectorAllocations = (portfolioData) => {
   const sectorMap = new Map();
@@ -65,23 +62,41 @@ const COLORS = [
   "#82ca9d",
 ];
 export default function PortfolioAnalyzer() {
-  const storedData = sessionStorage.getItem("analyzerResult");
+  const router = useRouter();
 
-  if (storedData === null) {
-    router.push("/riskAnalysis");
-  }
-  const portfolioData = storedData ? JSON.parse(storedData) : null;
+  const [portfolioData, setPortfolioData] = useState(null);
 
-  const [activeStock, setActiveStock] = useState(
-    portfolioData?.portfolioBreakdown?.[0] || {
-      name: "Default Stock",
-      allocationPercentage: 0,
-      sector: "Unknown",
-      analysis: "No analysis available.",
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedData = sessionStorage.getItem("analyzerResult");
+      if (storedData === null) {
+        router.push("/riskProfile");
+      } else {
+        setPortfolioData(JSON.parse(storedData));
+      }
     }
-  );
+  }, [router]);
 
-  const sectorData = calculateSectorAllocations(portfolioData);
+  const [activeStock, setActiveStock] = useState({
+    name: "Default Stock",
+    allocationPercentage: 0,
+    sector: "Unknown",
+    analysis: "No analysis available.",
+  });
+
+  useEffect(() => {
+    if (portfolioData?.portfolioBreakdown?.[0]) {
+      setActiveStock(portfolioData.portfolioBreakdown[0]);
+    }
+  }, [portfolioData]);
+
+  const sectorData = portfolioData
+    ? calculateSectorAllocations(portfolioData)
+    : [];
+
+  if (!portfolioData) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto py-8 px-4">

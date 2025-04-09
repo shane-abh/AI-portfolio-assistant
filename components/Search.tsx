@@ -47,6 +47,7 @@ const Search = () => {
 
   return (
     <div>
+      
       <div className="flex rounded-md border-2 border-blue-500 overflow-hidden max-w-md mx-auto">
         <input
           type="text"

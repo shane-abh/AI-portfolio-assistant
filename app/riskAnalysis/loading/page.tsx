@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import InteractiveLoading from "@/components/interactive-loading";
+import "../../globals.css"
 
 export default function LoadingPage() {
   const [loading, setLoading] = useState(true);
-  const [portfolio, setPortfolio] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -15,7 +16,7 @@ export default function LoadingPage() {
 
       if (recommendationData) {
         const formData = JSON.parse(recommendationData);
-
+        console.log(formData);
         try {
           const res = await fetch("/api/portfolioRecommendation", {
             method: "POST",
@@ -24,7 +25,7 @@ export default function LoadingPage() {
           });
 
           const result = await res.json();
-          setPortfolio(result);
+          
           sessionStorage.setItem("portfolioRecommendation", JSON.stringify(result));
           router.push("/portfolioRecommendation");
         } catch (err) {
@@ -38,7 +39,7 @@ export default function LoadingPage() {
 
       if (analyzerData) {
         const formData = JSON.parse(analyzerData);
-
+        console.log(formData);
         try {
           const res = await fetch("/api/portfolioAnalyzer", {
             method: "POST",
@@ -47,7 +48,7 @@ export default function LoadingPage() {
           });
 
           const result = await res.json();
-          setPortfolio(result);
+          
           sessionStorage.setItem("analyzerResult", JSON.stringify(result));
           router.push("/portfolioAnalyzer");
         } catch (err) {
@@ -60,13 +61,13 @@ export default function LoadingPage() {
       }
 
       // If no data is found
-      router.push("/riskAnalysis");
+      router.push("/riskProfile");
     };
 
     fetchPortfolio();
   }, [router]);
 
-  if (loading) return <div>Loading portfolio results...</div>;
+  if (loading) return <InteractiveLoading context="analysis"/>;
 
   return <div>Loading complete.</div>;
 }

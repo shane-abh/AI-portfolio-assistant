@@ -342,8 +342,8 @@ export default function Home() {
                 </p>
                 <div className="p-3 bg-green-50 rounded-lg w-full">
                   <p className="text-sm text-gray-700 italic">
-                    "P/E ratio of 15 means investors pay $15 for every $1 of earnings—lower than industry average,
-                    suggesting potential value."
+                    P/E ratio of 15 means investors pay $15 for every $1 of earnings—lower than industry average,
+                    suggesting potential value.
                   </p>
                 </div>
                 <Link href="/search">

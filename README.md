@@ -1,3 +1,63 @@
+# 📈 AI-Powered Stock Analysis Dashboard
+
+A modern, responsive stock analysis dashboard with advanced AI-driven insights and recommendations for smarter investment decisions.
+
+![Stock Analysis Dashboard](https://placeholder.svg?height=400&width=800)
+
+## ✨ Features
+
+- **AI Investment Analysis**: Comprehensive AI-powered analysis of stocks based on fundamental and technical indicators
+- **Dynamic Scoring System**: Evaluates stocks on valuation, growth potential, profitability, and risk
+- **Interactive Price Charts**: Visualize historical price data with customizable timeframes
+- **Fundamental Analysis**: Deep dive into key financial metrics, ratios, and performance indicators
+- **Technical Indicators**: Moving averages, price ranges, and technical signals
+- **Analyst Ratings**: Visual representation of professional analyst recommendations
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+
+## 🧠 AI Analysis Components
+
+The dashboard leverages artificial intelligence to provide:
+
+- **AI Investment Scorecard**: Quantitative scoring of key investment factors
+- **AI Recommendation Engine**: Data-driven buy/hold/sell recommendations
+- **Growth & Risk Assessment**: Automated evaluation of growth potential and risk factors
+- **Investment Thesis Generation**: AI-generated investment thesis based on comprehensive data analysis
+
+## 🛠️ Technologies
+
+- **Next.js**: React framework for server-side rendering and static site generation
+- **TypeScript**: Type-safe JavaScript for improved developer experience
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
+- **shadcn/ui**: High-quality UI components built with Radix UI and Tailwind
+- **Recharts**: Composable charting library for React
+- **Lucide Icons**: Beautiful, consistent icons
+
+## 📊 How It Works
+
+### Data Sources
+
+The dashboard is designed to work with financial data from various sources:
+
+- Stock price and historical data
+- Company fundamentals
+- Analyst ratings
+- Technical indicators
+- Financial statements
+
+Currently, the dashboard is connected to financial APIs like Alpha Vantage, Tiingo, and other proprietary data sources.
+
+### AI Analysis Methodology
+
+The AI analysis engine evaluates stocks based on four key dimensions:
+
+1. **Valuation**: Compares P/E ratio, PEG ratio, and other valuation metrics against industry averages
+2. **Growth Potential**: Analyzes earnings growth, revenue growth, and forward-looking indicators
+3. **Profitability**: Evaluates profit margins, ROE, ROA, and operational efficiency
+4. **Risk Assessment**: Measures volatility (beta), financial stability, and market position
+
+Each dimension receives a score from 0-100, which is then weighted to produce an overall investment score and recommendation.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

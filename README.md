@@ -46,6 +46,8 @@ The dashboard is designed to work with financial data from various sources:
 
 Currently, the dashboard is connected to financial APIs like Alpha Vantage, Tiingo, and other proprietary data sources.
 
+Then I use this data and send to to the LLM using Groq to perform the analysis and return their predicted data.
+
 ### AI Analysis Methodology
 
 The AI analysis engine evaluates stocks based on four key dimensions:

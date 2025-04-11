@@ -26,12 +26,12 @@ export default function PortfolioFormPage() {
 
     if (mode == "analyzer") {
       sessionStorage.setItem("analyzerData", JSON.stringify(data));
-      router.push("/riskAnalysis/loading");
+      router.push("/riskProfile/loading");
     } else {
       sessionStorage.setItem("recommendationData", JSON.stringify(data));
 
       //Navigate to the loading page
-      router.push("/riskAnalysis/loading");
+      router.push("/riskProfile/loading");
     }
     setIsSubmitted(true);
   };

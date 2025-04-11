@@ -69,5 +69,5 @@ export default function LoadingPage() {
 
   if (loading) return <InteractiveLoading context="analysis"/>;
 
-  return <div>Loading complete.</div>;
+  return <div></div>;
 }

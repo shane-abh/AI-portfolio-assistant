@@ -27,7 +27,7 @@ const Search = () => {
       const response = await axios.get(
         `https://api.tiingo.com/tiingo/utilities/search?query=${searchTerm}&token=${process.env.NEXT_PUBLIC_TIINGO_API_KEY}`
       );
-      console.log("API Response:", response.data);
+     
       setSearchResults(response.data);
     } catch (error: any) {
       setError(error.message || "Error in fetching search results");
@@ -41,7 +41,7 @@ const Search = () => {
   }, [debouncedQuery]);
 
   const handleSearchResultClick = (ticker: string) => {
-    console.log("Clicked on:", ticker);
+    
     router.push(`/${ticker}`) ;
   };
 

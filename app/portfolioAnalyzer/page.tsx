@@ -33,7 +33,8 @@ import {
   Legend,
 } from "recharts";
 import { useRouter } from "next/navigation";
-import "../globals.css"
+import "../globals.css";
+import Link from "next/link";
 
 // Calculate sector allocations
 const calculateSectorAllocations = (portfolioData) => {
@@ -109,10 +110,12 @@ export default function PortfolioAnalyzer() {
             Comprehensive analysis and insights for your investment portfolio
           </p>
         </div>
-        <Button>
-          Generate Report
-          <ArrowUpRight className="ml-2 h-4 w-4" />
-        </Button>
+        <Link href={"/riskProfile"} className="hidden md:flex">
+          <Button>
+            Try another Portfolio
+            <ArrowUpRight className="ml-2 h-4 w-4" />
+          </Button>
+        </Link>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">

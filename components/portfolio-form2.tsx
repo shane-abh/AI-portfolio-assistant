@@ -15,6 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Progress } from "@/components/ui/progress"
+import StockSearchBar from "./stock-search-bar"
 
 // Mock stock data for search functionality
 const mockStocks = [
@@ -88,8 +89,8 @@ type PortfolioFormProps = {
 }
 
 export default function PortfolioForm2({ mode, onSubmit, defaultValues = {} }: PortfolioFormProps) {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState<typeof mockStocks>([])
+  // const [searchQuery, setSearchQuery] = useState("")
+  // const [searchResults, setSearchResults] = useState<typeof mockStocks>([])
   const [selectedSectors, setSelectedSectors] = useState<string[]>(defaultValues.preferredSectors || [])
   const [currentStep, setCurrentStep] = useState(1)
   const [progress, setProgress] = useState(20)
@@ -122,27 +123,27 @@ export default function PortfolioForm2({ mode, onSubmit, defaultValues = {} }: P
   })
 
   // Search stocks functionality
-  useEffect(() => {
-    if (searchQuery.length > 1) {
-      const results = mockStocks.filter(
-        (stock) =>
-          stock.tickerSymbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          stock.companyName.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-      setSearchResults(results)
-    } else {
-      setSearchResults([])
-    }
-  }, [searchQuery])
+  // useEffect(() => {
+  //   if (searchQuery.length > 1) {
+  //     const results = mockStocks.filter(
+  //       (stock) =>
+  //         stock.tickerSymbol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //         stock.companyName.toLowerCase().includes(searchQuery.toLowerCase()),
+  //     )
+  //     setSearchResults(results)
+  //   } else {
+  //     setSearchResults([])
+  //   }
+  // }, [searchQuery])
 
   // Handle stock selection
-  const addStock = (stock: (typeof mockStocks)[0]) => {
+  const addStock = (stock: { tickerSymbol: string; companyName: string; allocationPercentage?: number }) => {
     const currentStocks = form.getValues("stocks") || []
     if (!currentStocks.some((s) => s.tickerSymbol === stock.tickerSymbol)) {
-      form.setValue("stocks", [...currentStocks, { ...stock, allocationPercentage: 0 }])
+      form.setValue("stocks", [...currentStocks, { ...stock, allocationPercentage: stock.allocationPercentage || 0 }])
     }
-    setSearchQuery("")
-    setSearchResults([])
+    // setSearchQuery("")
+    // setSearchResults([])
   }
 
   // Handle stock removal
@@ -405,41 +406,19 @@ export default function PortfolioForm2({ mode, onSubmit, defaultValues = {} }: P
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-2">
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant="outline" type="button" className="flex-1 text-lg">
-                            <Search className="mr-2 h-4 w-4" />
-                            Search for stocks
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-80">
-                          <div className="space-y-4">
-                            <Input
-                              placeholder="Search by ticker or company name"
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            <div className="max-h-60 overflow-y-auto space-y-1">
-                              {searchResults.map((stock) => (
-                                <Button
-                                  key={stock.tickerSymbol}
-                                  variant="ghost"
-                                  type="button"
-                                  className="w-full justify-start text-left"
-                                  onClick={() => addStock(stock)}
-                                >
-                                  <span className="font-bold mr-2">{stock.tickerSymbol}</span>
-                                  <span className="text-muted-foreground">{stock.companyName}</span>
-                                </Button>
-                              ))}
-                              {searchQuery.length > 1 && searchResults.length === 0 && (
-                                <p className="text-sm text-muted-foreground p-2">No stocks found</p>
-                              )}
-                            </div>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                  <div className="mb-4">
+                      <StockSearchBar
+                        variant="homepage"
+                        onResultClick={(ticker, name) => {
+                          const stock = {
+                            tickerSymbol: ticker,
+                            companyName: name,
+                            allocationPercentage: 0,
+                          }
+                          addStock(stock)
+                        }}
+                        placeholder="Search for stocks to add to your portfolio"
+                      />
                     </div>
 
                     <div className="mt-4">
@@ -452,7 +431,7 @@ export default function PortfolioForm2({ mode, onSubmit, defaultValues = {} }: P
                       <Card>
                         <CardContent className="p-4">
                           {form.watch("stocks")?.length > 0 ? (
-                            <div className="space-y-6">
+                             <div className="space-y-6">
                               {form.watch("stocks").map((stock, index) => (
                                 <div
                                   key={stock.tickerSymbol}

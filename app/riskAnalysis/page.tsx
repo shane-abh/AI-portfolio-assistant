@@ -16,8 +16,8 @@ export default function Home() {
   }, []);
 
   const handleAnalyzerSubmit = (data: any) => {
-    console.log("Analyzer form submitted:", data)
-    // In a real app, you would send this data to your API
+   
+   
     setAnalyzerResult(data)
 
     //store the data in seesion storage
@@ -28,8 +28,8 @@ export default function Home() {
   }
 
   const handleRecommendationSubmit = (data: any) => {
-    console.log("Recommendation form submitted:", data)
-    // In a real app, you would send this data to your API
+   
+    
     setRecommendationResult(data)
 
     //store the data in seesion storage

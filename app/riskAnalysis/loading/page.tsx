@@ -16,7 +16,7 @@ export default function LoadingPage() {
 
       if (recommendationData) {
         const formData = JSON.parse(recommendationData);
-        console.log(formData);
+        
         try {
           const res = await fetch("/api/portfolioRecommendation", {
             method: "POST",
@@ -27,7 +27,7 @@ export default function LoadingPage() {
           const result = await res.json();
           
           sessionStorage.setItem("portfolioRecommendation", JSON.stringify(result));
-          router.push("/portfolioRecommendation");
+          router.push("/portfolioRecomendation");
         } catch (err) {
           console.error("Error fetching recommendation", err);
         } finally {
@@ -39,7 +39,7 @@ export default function LoadingPage() {
 
       if (analyzerData) {
         const formData = JSON.parse(analyzerData);
-        console.log(formData);
+        
         try {
           const res = await fetch("/api/portfolioAnalyzer", {
             method: "POST",

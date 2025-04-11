@@ -15,7 +15,7 @@ const Header = () => {
         <Link href="/riskProfile" className="text-sm font-medium hover:underline underline-offset-4">
           Risk Profile
         </Link>
-        <Link href="/portfolioRecommendation" className="text-sm font-medium hover:underline underline-offset-4">
+        <Link href="/portfolioRecomendation" className="text-sm font-medium hover:underline underline-offset-4">
           Recommendations
         </Link>
         <Link href="/portfolioAnalyzer" className="text-sm font-medium hover:underline underline-offset-4">

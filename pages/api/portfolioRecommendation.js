@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     },
     { role: "user", content: stockAnalysisPrompt },
   ]);
-  console.log("firstLLMInviked")
+  console.log("firstLLMInvoked")
 
   const parsedJSON = await cleanJSONUsingLLM2(context.content, JSONSchema);
 

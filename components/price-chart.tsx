@@ -7,7 +7,7 @@ interface PriceChartProps {
 }
 
 export function PriceChart({ data }: PriceChartProps) {
-  console.log(data)
+
   return (
     <div className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">

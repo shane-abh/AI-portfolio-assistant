@@ -11,7 +11,7 @@ const data = [
 
 export default function handler(req , res) {
   const { q } = req.query;
-  console.log(req.query)
+  
   if (!q || typeof q !== "string") return res.status(200).json([]);
 
   const results = data.filter((item) =>

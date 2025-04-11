@@ -50,88 +50,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import "../globals.css";
 
-// Updated data structure based on the provided JSON
-const portfolioData = {
-  initialAnalysis: {
-    initialAnalysis: {
-      portfolio_recommendation: {
-        investment_amount: 150000,
-        risk_tolerance: "Low",
-        time_horizon: "Medium-term (3-7 years)",
-        preferred_sectors: ["Technology", "RealEstate"],
-        investment_strategy: "Growth",
-        geographic_preference: "USA",
-        market_conditions: "Neutral",
-        stocks_etfs: [
-          {
-            stock_symbol: "AAPL",
-            stock_name: "Apple Inc.",
-            sector: "Technology",
-            percentage_allocation: 30,
-            justification:
-              "Apple is a well-established company with a history of innovation and growth. It offers a diversified product portfolio beyond just iPhones, including services and wearables, aligning with a growth strategy.",
-          },
-          {
-            stock_symbol: "PLD",
-            stock_name: "Prologis Inc.",
-            sector: "RealEstate",
-            percentage_allocation: 20,
-            justification:
-              "Prologis focuses on logistics and industrial properties, which are in high demand due to the rise of e-commerce, aligning with the growth strategy.",
-          },
-          {
-            stock_symbol: "VOO",
-            stock_name: "Vanguard S&P 500 ETF",
-            sector: "Broad Market",
-            percentage_allocation: 20,
-            justification:
-              "Provides broad market exposure with low volatility, diversifying the portfolio and reducing risk.",
-          },
-          {
-            stock_symbol: "SMH",
-            stock_name: "VanEck Semiconductor ETF",
-            sector: "Technology",
-            percentage_allocation: 15,
-            justification:
-              "Covers a range of semiconductor companies, crucial for industries like AI, automotive, and consumer electronics, offering growth potential.",
-          },
-          {
-            stock_symbol: "XLU",
-            stock_name: "Utilities Select Sector SPDR Fund",
-            sector: "Utilities",
-            percentage_allocation: 15,
-            justification:
-              "Provides stability and consistent dividends, balancing the portfolio's risk.",
-          },
-        ],
-        expected_return: "7-9% annually",
-        risk_level: "Moderate",
-        comparison_to_benchmark: {
-          benchmark: "S&P 500",
-          comparison:
-            "Expected to perform similarly or slightly better due to focus on growth sectors.",
-        },
-        potential_risks: [
-          {
-            risk: "Market downturns affecting Technology stocks",
-            management_strategy:
-              "Regular portfolio rebalancing and diversification.",
-          },
-          {
-            risk: "Interest rate changes impacting Real Estate",
-            management_strategy:
-              "Monitor interest rate trends and adjust allocations as needed.",
-          },
-          {
-            risk: "Sector-specific risks in Technology and Semiconductors",
-            management_strategy:
-              "Stay informed about market trends and regulatory changes.",
-          },
-        ],
-      },
-    },
-  },
-};
+
+
 
 export default function StockRecommendationPage() {
   const router = useRouter();
@@ -485,7 +405,7 @@ export default function StockRecommendationPage() {
                           {stock.percentage_allocation}%
                         </Badge>
                       </TableCell>
-                      <TableCell className="max-w-md">
+                      <TableCell className="max-w-md ">
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
@@ -575,8 +495,8 @@ export default function StockRecommendationPage() {
               </div>
             </CardContent>
             <CardFooter className="border-t bg-gray-50 dark:bg-gray-800/50 text-sm text-gray-500 dark:text-gray-400">
-              <div className="flex items-center">
-                <Shield className="h-4 w-4 mr-2" />
+              <div className="flex items-center  ">
+                <Shield className="h-4 w-4 mr-2 my-2" />
                 <span>Regular portfolio review recommended every 3 months</span>
               </div>
             </CardFooter>

@@ -127,28 +127,41 @@ export default function StockIdPage({ params }: { params: Params }) {
     }
   }, [isValidAccess, router]);
 
-  if (!isValidAccess) {
-    return null; // or a loading state
-  }
-
-  const [currentPrice] = useState(222.31); // This would normally be fetched from an API
-  const previousClose = 220.15; // This would normally be fetched from an API
-  const priceChange = currentPrice - previousClose;
-  const percentChange = (priceChange / previousClose) * 100;
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
+  const [previousClose, setPreviousClose] = useState<number | null>(null);
+  const [priceChange, setPriceChange] = useState<number>(0);
+  const [percentChange, setPercentChange] = useState<number>(0);
+  const [chartData, setChartData] = useState<any[]>([]);
 
   const [stockData, setStockData] = useState<StockData>();
   const [stockAnalysis, setStockAnalysis] = useState<any>();
   const [isLoading, setIsLoading] = useState(true);
 
-  const [chartData, setChartData] = useState<any>([]);
-
   useEffect(() => {
     async function fetchStockData() {
-      const res = await fetch(
-        `https://api.tiingo.com/tiingo/daily/${stockId}/prices?startDate=2025-01-02&token=${process.env.NEXT_PUBLIC_TIINGO_API_KEY}`
-      );
-      const data = await res.json();
-      setChartData(data);
+      try {
+        const res = await fetch(
+          `https://api.tiingo.com/tiingo/daily/${stockId}/prices?startDate=2025-01-02&token=${process.env.NEXT_PUBLIC_TIINGO_API_KEY}`
+        );
+        const data = await res.json();
+        const latest = data[data.length - 1]?.close;
+        const previous = data[data.length - 2]?.close;
+
+        setCurrentPrice(latest);
+        setPreviousClose(previous);
+        setChartData(data);
+
+        if (latest != null && previous != null && previous !== 0) {
+          const change = latest - previous;
+          const percent = (change / previous) * 100;
+          setPriceChange(change);
+          setPercentChange(percent);
+        }
+      } catch (error) {
+        console.error("Error fetching stock data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
     async function fetchStockAnalysisAI() {
@@ -181,8 +194,6 @@ export default function StockIdPage({ params }: { params: Params }) {
     return formattedDate;
   };
 
-  console.log(stockData);
-
   // Transform the data
   const formattedData = Array.isArray(chartData)
     ? chartData.map((item) => ({
@@ -190,6 +201,10 @@ export default function StockIdPage({ params }: { params: Params }) {
         date: convertDateToMonth(item.date),
       }))
     : [];
+
+  if (!isValidAccess) {
+    return null; // or a loading state
+  }
 
   return (
     <div>
@@ -316,7 +331,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                   </div>
                 </div>
 
-                <div className="" >
+                <div className="">
                   <h3 className="font-medium mb-2 mt-10 ">
                     AI Investment Recommendation
                   </h3>
@@ -367,7 +382,7 @@ export default function StockIdPage({ params }: { params: Params }) {
                       {Number.parseFloat(stockData.PERatio) > 25
                         ? "potentially higher valuation risk"
                         : "reasonable valuation"}
-                      . Investors should consider {stockData.Name}'s heavy
+                      . Investors should consider {stockData.Name}&apos;s heavy
                       reliance on iPhone sales and potential regulatory
                       challenges in various markets.
                     </p>
@@ -409,7 +424,7 @@ export default function StockIdPage({ params }: { params: Params }) {
             <TabsContent value="technical" className="mt-6">
               <TechnicalIndicators
                 stockData={stockData}
-                currentPrice={currentPrice}
+                currentPrice={currentPrice ?? 0}
                 formatCurrency={formatCurrency}
               />
             </TabsContent>
@@ -530,7 +545,9 @@ export default function StockIdPage({ params }: { params: Params }) {
                     </div>
                     <div className="text-sm text-gray-500">
                       Operating:{" "}
-                      {formatPercent(parseFloat(stockData.OperatingMarginTTM) * 100)}
+                      {formatPercent(
+                        parseFloat(stockData.OperatingMarginTTM) * 100
+                      )}
                     </div>
                   </div>
                 </div>

@@ -20,7 +20,7 @@ export default function PortfolioFormPage() {
     }, []);
 
   const handleSubmit = (data: any) => {
-    console.log("Form submitted:", data);
+    
 
     setFormData(data);
 

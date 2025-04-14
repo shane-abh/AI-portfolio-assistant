@@ -1,6 +1,6 @@
 {
     "functions": {
-      "api/portfolio.js": {
+      "/app/pages/api/portfolio.js": {
         "maxDuration": 60
       }
     }

@@ -1,6 +1,6 @@
 {
     "functions": {
-      "/pages/api/portfolioRecommendation.js": {
+      "pages/api/portfolioRecommendation.js": {
         "maxDuration": 60
       }
     }

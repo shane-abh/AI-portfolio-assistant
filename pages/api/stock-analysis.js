@@ -6,7 +6,6 @@ import {llama70bversatile} from "./utils/llm";
 export default async function handler(req, res) {
   const { stockSymbol } = req.body;
  
-
   
   const llm = llama70bversatile
 

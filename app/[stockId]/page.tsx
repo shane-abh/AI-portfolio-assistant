@@ -141,7 +141,8 @@ export default function StockIdPage({ params }: { params: Params }) {
     async function fetchStockData() {
       try {
         const res = await fetch(
-          `https://api.tiingo.com/tiingo/daily/${stockId}/prices?startDate=2025-01-02&token=${process.env.NEXT_PUBLIC_TIINGO_API_KEY}`
+          `/api/dailyPrices?symbol=${stockId}`,
+         
         );
         const data = await res.json();
         const latest = data[data.length - 1]?.close;

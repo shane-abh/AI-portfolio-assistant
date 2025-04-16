@@ -16,15 +16,8 @@ import StockSearchBar from "@/components/stock-search-bar"
 import "./globals.css"
 
 export default function Home() {
-  const [searchQuery, setSearchQuery] = useState("")
+ 
   const router = useRouter()
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
-    }
-  }
 
   const handleSearchResultClick = (ticker: string) => {
     router.push(`/${ticker.toLowerCase()}`)

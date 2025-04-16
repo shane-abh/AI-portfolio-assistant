@@ -1,22 +1,13 @@
-// import { NextApiRequest, NextApiResponse } from "next";
 
-// Simulated database
-const data = [
-  { name: "Apple" },
-  { name: "Banana" },
-  { name: "Cherry" },
-  { name: "Date" },
-  { name: "Elderberry" },
-];
 
-export default function handler(req , res) {
-  const { q } = req.query;
+export default async function handler(req , res) {
+  const { query } = req.query;
   
-  if (!q || typeof q !== "string") return res.status(200).json([]);
+  // if (!q || typeof q !== "string") return res.status(200).json([]);
 
-  const results = data.filter((item) =>
-    item.name.toLowerCase().includes(q.toLowerCase())
-  );
+  const response = await fetch(`https://api.tiingo.com/tiingo/utilities/search?query=${query}&token=${process.env.TIINGO_API_KEY}`);
+
+  const results = await response.json();
 
   res.status(200).json(results);
 }

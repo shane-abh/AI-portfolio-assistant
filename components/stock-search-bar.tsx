@@ -62,10 +62,11 @@ export default function StockSearchBar({
 
     try {
       // Using the Tiingo API as specified in the original code
-      const response = await axios.get(
-        `https://api.tiingo.com/tiingo/utilities/search?query=${searchTerm}&token=${process.env.NEXT_PUBLIC_TIINGO_API_KEY}`,
+      const response = await fetch(
+        `/api/search?query=${searchTerm}`,
       )
-      setSearchResults(response.data)
+      const data = await response.json()
+      setSearchResults(data)
     } catch (error: any) {
       console.error("Search error:", error)
       setError(error.message || "Error fetching search results. Please try again.")
@@ -92,6 +93,7 @@ export default function StockSearchBar({
       // Add the new search and remove duplicates
       recentSearches = [{ ticker, name }, ...recentSearches.filter((item: any) => item.ticker !== ticker).slice(0, 4)]
       localStorage.setItem("recentStockSearches", JSON.stringify(recentSearches))
+      
     } catch (e) {
       console.error("Error saving to localStorage:", e)
     }
@@ -105,7 +107,7 @@ export default function StockSearchBar({
       onResultClick(ticker, name)
     } else {
       // Default behavior: navigate to stock page
-      router.push(`/stocks/${ticker.toLowerCase()}`)
+      router.push(`/${ticker.toLowerCase()}`)
     }
   }
 
@@ -189,7 +191,7 @@ export default function StockSearchBar({
                 ))}
               </ul>
             ) : query.length > 1 ? (
-              <div className="p-4 text-center text-gray-500">No results found for "{query}"</div>
+              <div className="p-4 text-center text-gray-500">No results found for {query}</div>
             ) : null}
           </CardContent>
         </Card>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNavigation } from "../../context/NavigationContext";
+import { useNavigation } from "../../../context/NavigationContext";
 import {
   LineChart,
   Line,
@@ -27,20 +27,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { AnalystRatings } from "../../components/analyst-ratings";
-import { CompanyOverview } from "../../components//company-overview";
-import { FundamentalMetrics } from "../../components/fundamental-metrics";
-import { KeyStatistics } from "../../components/key-statistics";
-import { PriceChart } from "../../components/price-chart";
-import { RecommendationCard } from "../../components/recommendation-card";
-import { TechnicalIndicators } from "../../components/technical-indicators";
-import { AIInsights } from "../../components/ai-insights";
+import { AnalystRatings } from "../../../components/analyst-ratings";
+import { CompanyOverview } from "../../../components/company-overview";
+import { FundamentalMetrics } from "../../../components/fundamental-metrics";
+import { KeyStatistics } from "../../../components/key-statistics";
+import { PriceChart } from "../../../components/price-chart";
+import { RecommendationCard } from "../../../components/recommendation-card";
+import { TechnicalIndicators } from "../../../components/technical-indicators";
+import { AIInsights } from "../../../components/ai-insights";
 import {
   formatCurrency,
   formatMarketCap,
   formatNumber,
   formatPercent,
-} from "../../pages/api/utils/utils";
+} from "../../../pages/api/utils/utils";
 import {
   ArrowDown,
   ArrowUp,
@@ -55,7 +55,7 @@ import { set } from "react-hook-form";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import InteractiveLoading from "@/components/interactive-loading";
-import "../globals.css";
+import "../../globals.css";
 
 interface Params {
   stockId: string;
@@ -140,10 +140,7 @@ export default function StockIdPage({ params }: { params: Params }) {
   useEffect(() => {
     async function fetchStockData() {
       try {
-        const res = await fetch(
-          `/api/dailyPrices?symbol=${stockId}`,
-         
-        );
+        const res = await fetch(`/api/dailyPrices?symbol=${stockId}`);
         const data = await res.json();
         const latest = data[data.length - 1]?.close;
         const previous = data[data.length - 2]?.close;
@@ -181,6 +178,7 @@ export default function StockIdPage({ params }: { params: Params }) {
     }
 
     fetchStockData();
+
     fetchStockAnalysisAI();
   }, [stockId]);
 

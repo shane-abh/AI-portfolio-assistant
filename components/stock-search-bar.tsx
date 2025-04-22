@@ -107,7 +107,7 @@ export default function StockSearchBar({
       onResultClick(ticker, name)
     } else {
       // Default behavior: navigate to stock page
-      router.push(`/${ticker.toLowerCase()}`)
+      router.push(`/stocks/${ticker.toLowerCase()}`)
     }
   }
 

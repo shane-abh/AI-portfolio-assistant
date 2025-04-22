@@ -45,7 +45,7 @@ export default function Home() {
   }, [])
 
   const handleSearchResultClick = (ticker: string) => {
-    router.push(`/${ticker.toLowerCase()}`)
+    router.push(`/stocks/${ticker.toLowerCase()}`)
   }
 
    // Animation variants
@@ -140,12 +140,7 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
               >
-                <StockSearchBar
-                  variant="homepage"
-                  onResultClick={handleSearchResultClick}
-                  showPopularSearches={true}
-                  className="w-full"
-                />
+                
               </motion.div>
               <motion.div
                 className="flex flex-col sm:flex-row gap-3 mt-2"
@@ -158,8 +153,8 @@ export default function Home() {
                   <Button
                     size="lg"
                     className="bg-green-600 hover:bg-green-700 w-full group"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    
+                    
                   >
                     Get Started
                     <motion.div
@@ -171,9 +166,9 @@ export default function Home() {
                     </motion.div>
                   </Button>
                 </Link>
-                <Link href="#how-it-works">
+                <Link href="/search">
                   <Button size="lg" variant="outline" className="w-full">
-                    How It Works
+                    Analyze Individual stocks
                   </Button>
                 </Link>
               </motion.div>

@@ -35,7 +35,7 @@ export default function SearchPage() {
 
     // Navigate to stock page
     setValidAccess(true);
-    router.push(`/${ticker.toLowerCase()}`);
+    router.push(`/stocks/${ticker.toLowerCase()}`);
   };
 
   const clearRecentSearches = () => {

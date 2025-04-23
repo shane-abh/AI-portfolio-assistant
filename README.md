@@ -1,18 +1,17 @@
 # 📈 AI-Powered Stock Analysis Dashboard
 
-A modern, responsive stock analysis dashboard with advanced AI-driven insights and recommendations for smarter investment decisions.
+This platform is a comprehensive stock analysis and portfolio management tool that leverages artificial intelligence to provide users with detailed insights into individual stocks and investment portfolios. The application helps investors make informed decisions by combining traditional financial metrics with AI-powered analysis.
 
-![Stock Analysis Dashboard](https://placeholder.svg?height=400&width=800)
+![Stock Analysis Dashboard](image.png)
 
 ## ✨ Features
 
-- **AI Investment Analysis**: Comprehensive AI-powered analysis of stocks based on fundamental and technical indicators
-- **Dynamic Scoring System**: Evaluates stocks on valuation, growth potential, profitability, and risk
-- **Interactive Price Charts**: Visualize historical price data with customizable timeframes
-- **Fundamental Analysis**: Deep dive into key financial metrics, ratios, and performance indicators
-- **Technical Indicators**: Moving averages, price ranges, and technical signals
-- **Analyst Ratings**: Visual representation of professional analyst recommendations
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Stock Analysis Dashboard**:  Provides comprehensive analysis of individual stocks including fundamental metrics, technical indicators, and AI-generated insights.
+- **Portfolio Analyzer**:  Allows users to input their investment portfolio and receive analysis on diversification, risk, and performance.
+- **Portfolio Recommendations**: Suggests investment opportunities based on user risk profiles and investment goals.
+- **AI-Powered Insights**: Leverages LangChain and LLM technology to provide intelligent analysis of stocks and investment opportunities.
+- **Interactive Charts**: Visualizes stock price data and key metrics for better decision-making.
+
 
 ## 🧠 AI Analysis Components
 

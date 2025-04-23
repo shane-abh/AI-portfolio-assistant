@@ -2,7 +2,7 @@
 
 This platform is a comprehensive stock analysis and portfolio management tool that leverages artificial intelligence to provide users with detailed insights into individual stocks and investment portfolios. The application helps investors make informed decisions by combining traditional financial metrics with AI-powered analysis.
 
-![Stock Analysis Dashboard](image.png)
+![image](https://github.com/user-attachments/assets/fd870fe2-19bc-4690-8fc4-e7fa73f40de9)
 
 ## ✨ Features
 
